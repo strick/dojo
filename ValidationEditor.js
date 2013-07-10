@@ -7,18 +7,16 @@ dojo.declare(
     [dijit.Editor],
     {
         invalidMessage: "This field is required",
-        regExp: "(.|\\s)*",
 
         onFocus: function() {
-          var obj = this;
+            var obj = this;
             if (!this.isValid()) {
                 this.displayMessage(this.invalidMessage);
                 require(["dojo/dom-class"], function(domClass){            		
             		domClass.add(obj.domNode.id, "dijitErrorFocused");            		
-            	}); 
-                dijit.showTooltip(message, obj.domNode.id, obj.tooltipPosition);
+            	});                 
             }
-            else {
+            else {            	
             	require(["dojo/dom-class"], function(domClass){            		
             		domClass.remove(obj.domNode.id, "dijitErrorFocused");
             		domClass.remove(obj.domNode.id, "dijitError");
@@ -44,8 +42,11 @@ dojo.declare(
         
         isValid: function()
         {
-        	if(this.value === '') return false;
-        	
+        	var value = this.value;
+
+        	if(dojo.string.trim(value.replace('<br />', '')) == ''){        		
+        		return false;
+        	}
         	
         	return true;
         },
@@ -53,14 +54,18 @@ dojo.declare(
         onBlur: function()
         {
         	var obj = this;
-        	require(["dojo/dom-class"], function(domClass){
-        		if(!obj.isValid())
-        			domClass.add(obj.domNode.id, "dijitError");
-        		else {
+        	
+        	if(!this.isValid()){
+        		require(["dojo/dom-class"], function(domClass){
+        			domClass.add(obj.domNode.id, "dijitError");        			
+        		});
+        	}
+        	else {
+        		require(["dojo/dom-class"], function(domClass){        			
         			domClass.remove(obj.domNode.id, "dijitError");
-        			domClass.remove(obj.domNode.id, "dijitErrorFocused");
-        		}
-        	}); 
+        			domClass.remove(obj.domNode.id, "dijitErrorFocused");        			
+        		});
+        	}     
         	
         	dijit.hideTooltip(this.domNode.id);         
         }
