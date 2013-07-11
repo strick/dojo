@@ -1,9 +1,8 @@
-dojo.provide("custom.dijit.ValidationEditor");
+dojo.provide("strick.dojo.dijit.Editor.ValidationEditor");
 dojo.require("dijit.Editor");
-dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
-    "custom.dijit.ValidationEditor",
+    "strick.dojo.dijit.Editor.ValidationEditor",
     [dijit.Editor],
     {
         invalidMessage: "This field is required",
